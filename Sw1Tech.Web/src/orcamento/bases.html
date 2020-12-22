@@ -1,0 +1,89 @@
+<template>
+    <require from="../resources/value-converters/valor"></require>
+    <require from="../resources/value-converters/qtd"></require>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-9">
+                    <h4>
+                        Bases
+                    </h4>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-3">
+                    <button class="btn btn-default" click.trigger="DoAtivarFrmBase()" data-toggle="tooltip" data-placement="bottom" title="Alternar para produto/detalhe.">
+                        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-default" click.trigger="DoSalvarBase()" data-toggle="tooltip" data-placement="bottom" title="Salvar registro.">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-default" click.trigger="DoObterSomaBases()" data-toggle="tooltip" data-placement="bottom" title="Recarregar lista.">
+                        <i class="fas fa-sync" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row form-inline">
+                        <div class="col-xs-12 col-sm-6 col-md-10">
+                            <div class="input-group" style="width:150px">
+                                <label for="orcamentoItem.TotAreaBase">Tot.Area</label>
+                                <input value.bind="orcamentoItem.TotAreaBase | qtd" type="text" class="form-control" id="orcamentoItem.TotAreaBase" placeholder="Tot.Area" disabled/>
+                            </div>
+                            <div class="input-group" style="width:150px">
+                                <label for="orcamentoItem.VlrUnitarioBase">Vlr.Unitário</label>
+                                <input value.bind="orcamentoItem.VlrUnitarioBase | valor & updateTrigger:'blur'" type="text" class="form-control" id="orcamentoItem.VlrUnitarioBase" placeholder="Vlr.Unitário" maxlength="${orcamentoItem.MaxVlrUnitario}"/>
+                            </div>
+                            <div class="input-group" style="width:150px">
+                                <label for="orcamentoItem.PerDescontoBase">% Desconto</label>
+                                <input value.bind="orcamentoItem.PerDescontoBase | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="% Desconto" id="orcamentoItem.PerDescontoBase" maxlength="${orcamentoItem.MaxPerDesconto}"/>
+                            </div>
+                            <div class="input-group" style="width:150px">
+                                <label for="orcamentoItem.VlrDescontoBase">Vlr.Desconto</label>
+                                <input value.bind="orcamentoItem.VlrDescontoBase | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="Vlr.Desconto" id="orcamentoItem.VlrDescontoBase" maxlength="${orcamentoItem.MaxVlrDesconto}"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2" align="right">
+                            <div class="input-group">
+                                <label for="orcamentoItem.GetVlrTotalBase">Vlr.Total</label>
+                                <input value.one-way="orcamentoItem.GetVlrTotalBase | valor" type="text" class="form-control" id="orcamentoItem.VlrTotalBase" placeholder="Total" disabled/>
+                            </div>
+                        </div>
+                    </div>                        
+                </div>
+            </div>
+                        
+            <ul class="list-group">
+                <lo repeat.for="orcaSbas of orcamentoItem.lstSBas">
+                                    
+                    <button type="button" class="list-group-item" click.trigger="DoEditarBase(orcaSbas)">
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <h4 class="list-group-item-heading">
+                                ${orcaSbas.nome} - ${orcaSbas.volume}
+                            </h4>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2">
+                            <p class="list-group-item-text" align="right">Registros: ${orcaSbas.countReg | qtd}</p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2">
+                            <p class="list-group-item-text" align="right">Tot.Area: ${orcaSbas.area | qtd}</p>
+                            <p class="list-group-item-text" align="right">Vlr.Unitário R$: ${orcaSbas.vlrUnitario | valor}</p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2">
+                            <p class="list-group-item-text" align="right">Desc.R$: ${orcaSbas.vlrDesconto | valor}</p>
+                            <p class="list-group-item-text" align="right">Desc.%: ${orcaSbas.perDesconto | valor}</p>
+                        </div>
+                            
+                        <div class="col-xs-12 col-sm-6 col-md-2">
+                            <p class="list-group-item-text" align="right">Desc.Ind: ${orcaSbas.indDescontoProdutoFinal}</p>
+                            <p class="list-group-item-text" align="right">Vlr.Total R$: ${orcaSbas.vlrTotal | valor}</p>
+                        </div>
+                    </button>
+                        
+                </lo>
+            </ul>
+        </div>
+    </div>
+
+</template>

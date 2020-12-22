@@ -1,0 +1,63 @@
+<template>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="col-xs-12 col-sm-12 col-md-1">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#menu-toggle" id="menu-toggle" data-toggle="tooltip" data-placement="bottom" title="Menu de opções.">
+                    <i class="fa fa-list-ul"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-10" align="center">
+            <!-- <br class="alert alert-info" role="alert" if.bind="message">
+                ${message}
+            </br> -->
+        </div>
+            
+        <div class="col-xs-12 col-sm-12 col-md-1">
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"  data-toggle="tooltip" data-placement="bottom" title="Identificação do usuário.">
+                            <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li align="center">
+                                <i class="fa fa-user fa-fw"></i>
+                                <p> ${nomeUsuario} </p>
+                            </li>
+                            <li class="divider"></li>
+                            <li class="dropdown-header" align="center">
+                                Revalidar Acesso
+                                <div class="input-group">
+                                    <input value.bind="senhaUsuario" type="password" class="form-control input-sm" id="senhaUsuario" placeholder="Senha">
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default btn-sm" click.delegate="DoAutentica()">
+                                            <i class="fa fa-key"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </li>
+
+                            <li class="divider"></li>
+
+                            <li align="center"  data-toggle="tooltip" data-placement="bottom" title="Sair do sistema.">
+                                <a href="#" click.delegate="auth.DoLogout()"><i class="fa fas fa-sign-out-alt fa-fw"></i>Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        
+        </div>
+                
+    </nav>
+
+</template>

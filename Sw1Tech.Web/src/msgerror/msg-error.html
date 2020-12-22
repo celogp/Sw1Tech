@@ -1,0 +1,17 @@
+<template>
+    <div class="alert alert-info" role="alert" if.bind="message">
+        ${message}
+    </div>
+    
+    <ul if.bind="lstSrvErro">
+        <li repeat.for="error of lstSrvErro">
+            <span class="text-danger">${error.message}</span>
+        </li>
+    </ul>
+
+    <ul if.bind="controller.errors">
+        <li repeat.for="error of controller.errors">
+            <span class="text-danger">${error.message}</span>
+        </li>
+    </ul>
+</template>

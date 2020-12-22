@@ -1,0 +1,36 @@
+<template>
+    <require from="../resources/value-converters/valor"></require>
+    <require from="../resources/value-converters/data"></require>
+    <require from="../resources/value-converters/status"></require>
+    <div show.bind="isPesqOrcamento">
+        <ul class="list-group">
+            <lo repeat.for="orca of lstOrca">
+                <button type="button" class="list-group-item" click.trigger="DoEditar(orca)">
+                    <div class="col-xs-12 col-sm-6 col-md-1">
+                        <h4 class="list-group-item-heading">Id : ${orca.id}</h4>
+                        <p class="list-group-item-text">${orca.status | status} </p>
+                    </div>
+                            
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <h4 class="list-group-item-heading">Numero : ${orca.numero} Dt.Movto : ${orca.dtMovimento | data}</h4>
+                        <p class="list-group-item-text">Parceiro: ${orca.parceiro.nome} </p>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                        <p class="list-group-item-text">Usuario : ${orca.usuario.nome} </p>
+                        <p class="list-group-item-text">Dt.Entrega : ${orca.dtEntrega | data} Validade : ${orca.diaValidade}</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <p class="list-group-item-text" align="right">Total Produtos: ${orca.totProdutos | valor}</p>
+                        <p class="list-group-item-text" align="right">Desc.%: ${orca.perDesconto | valor}</p>
+                    </div>
+                        
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <p class="list-group-item-text" align="right">Desc.R$: ${orca.vlrDesconto | valor}</p>
+                        <p class="list-group-item-text" align="right">Total : ${orca.totOrcamento | valor}</p>
+                    </div>
+
+                </button>
+            </lo>
+        </ul>
+    </div>
+</template>

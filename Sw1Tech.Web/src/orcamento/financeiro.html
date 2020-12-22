@@ -1,0 +1,105 @@
+<template>
+    <require from="../resources/value-converters/data"></require>
+    <require from="../resources/value-converters/valor"></require>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-9">
+                    <h4>
+                        ${financeiro.heading}
+                    </h4>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-3">
+                    <button class="btn btn-default" click.trigger="DoAtivarFrmFinanceiro()" data-toggle="tooltip" data-placement="bottom" title="Alternar para produto/detalhe.">
+                        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-default" click.trigger="DoSalvarFinanceiro()" data-toggle="tooltip" data-placement="bottom" title="Salvar lista.">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-default" click.trigger="DoApagarFinanceiro()" data-toggle="tooltip" data-placement="bottom" title="Apagar lista.">
+                        <i class="fa fa-trash" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <!-- Form para gerar parcelas -->
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row form-inline">
+                        <div class="col-xs-12 col-sm-6 col-md-10">
+                            <div class="input-group" style="width:200px">
+                                <label for="FormaPagamentoId">Forma Pagto.</label>
+                                <select class="form-control" value.bind="financeiro.FormaPagamentoId" id="FormaPagamentoId" change.delegate="financeiro.DoObterRegraFormaPagamento(financeiro.FormaPagamentoId)">
+                                    <option repeat.for="Fpgt of lstFpgt" model.bind="Fpgt.id">${Fpgt.nome}</option>
+                                </select>
+                            </div>
+                            <div class="input-group" style="width:30px">
+                                <label for="financeiro.PrimeiroVcto">1o.Vcto.Da Parcela</label>
+                                <input value.bind="financeiro.PrimeiroVcto" type="date" id="financeiro.PrimeiroVcto" class="form-control" placeholder="1o.Vcto."/>
+                            </div>
+                            <div class="input-group" style="width:80px">
+                                <label for="financeiro.Parcelas">Parcelas</label>
+                                <input value.bind="financeiro.Parcelas" type="text" id="financeiro.Parcelas" class="form-control" placeholder="Parcelas" disabled/>
+                            </div>
+                            <div class="input-group" style="width:80px">
+                                <label for="financeiro.Dias">Dias</label>
+                                <input value.bind="financeiro.Dias" type="text" id="financeiro.Dias" class="form-control" placeholder="Dias" disabled/>
+                            </div>
+
+                            <div class="input-group" style="width:70px">
+                                <label for="financeiro.Taxa">Taxa</label>
+                                <input value.bind="financeiro.Taxa | valor" type="text" id="financeiro.Taxa" class="form-control" placeholder="Taxa" disabled/>
+                            </div>
+                            
+                            <!-- <div class="input-group" style="width:110px">
+                                <label for="financeiro.VlrAreceber">Vlr.Receber</label>
+                                <input value.bind="financeiro.VlrAreceber | valor & updateTrigger:'blur'" type="text" id="financeiro.VlrAreceber" class="form-control" placeholder="Vlr.Receber" disabled/>
+                            </div> -->
+
+                            <div class="input-group" style="width:300px">
+                                <label for="financeiro.Historico">Historico</label>
+                                <input value.bind="financeiro.Historico" type="text" id="financeiro.Historico" class="form-control" placeholder="Historico"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2">
+                            <!-- <div class="input-group">
+                                <label for="financeiro.VlrPendente">Vlr.Pendente</label>
+                                <input value.bind="financeiro.VlrPendente | valor" type="text" id="financeiro.VlrPendente" class="form-control" placeholder="Vlr.Pendente" disabled/>
+                            </div> -->
+                            <div class="input-group">
+                                <label for="financeiro.VlrAreceber">Vlr.Receber</label>
+                                <input value.bind="financeiro.VlrAreceber | valor & updateTrigger:'blur'" type="text" id="financeiro.VlrAreceber" class="form-control" placeholder="Vlr.Receber" disabled/>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Lista de parcelas -->
+            <ul class="list-group">
+                <lo repeat.for="orcaFina of financeiro.lstFina">
+                    <button type="button" class="list-group-item">
+                        <div class="col-xs-12 col-sm-6 col-md-3">
+                            <h4 class="list-group-item-heading">
+                                ${orcaFina.nomeFormaPagamento}
+                            </h4>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-1">
+                            Parcela : ${orcaFina.parcela} 
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2">
+                            Vencto :  ${orcaFina.dtVencimento | data}
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            Historico : ${orcaFina.historico}
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2" align="right">
+                            Vlr.Parcela : R$ ${orcaFina.vlrParcela + orcaFina.vlrTaxa | valor}
+                        </div>
+                    </button>
+                </lo>
+            </ul>
+        </div>
+    </div>
+</template>

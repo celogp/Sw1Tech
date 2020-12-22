@@ -1,0 +1,19 @@
+<template>
+    <require from="toastr/build/toastr.min.css"></require>
+    <require from="bootstrap/css/bootstrap.min.css"></require>
+    <require from="./navbar/nav-bar"></require>
+    <require from="./sidbar/side-bar.html"></require>
+    <div id="wrapper">
+        <nav-bar></nav-bar>
+        <side-bar router.bind="router"></side-bar>
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <router-view></router-view>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+</template>

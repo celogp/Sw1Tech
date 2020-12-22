@@ -1,0 +1,12 @@
+<template>
+    <div show.bind="isPesqOcorrencia">
+        <ul class="list-group">
+            <lo repeat.for="ocor of lstOcor">
+                <button type="button" class="list-group-item" click.trigger="DoEditar(ocor)">
+                    <h4 class="list-group-item-heading">Id : ${ocor.id}</h4>
+                    <p class="list-group-item-text">${ocor.nome}</p>
+                </button>
+            </lo>
+        </ul>
+    </div>
+</template>

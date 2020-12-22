@@ -1,0 +1,101 @@
+<template>
+    <section class="au-animate">
+        <compose view-model="../toolbar/tool-bar"></compose>
+        <compose view-model="../msgerror/msg-error"></compose>
+        
+        <require from="../resources/value-converters/filelisttoarray"></require>
+        <require from="../resources/value-converters/blobtourl"></require>
+
+        <div show.bind="isVisibleForm">
+                
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-xs-12 col-sm-6 col-md-10">
+                        <form class="form-inline">
+                            <div class="input-group" style="width:85px">
+                                <label for="OrcamentoId">Id.Orçamento</label>
+                                <div class="search input-group" role="search">
+                                    <input value.bind="OrcamentoId" type="text" class="form-control" id="Id" placeholder="OrcamentoId." style="width:90px" maxlength="${MaxId}" disabled/>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" click.trigger="DoAtivaLstOrcamento()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                            <span class="fa fa-search"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="input-group" style="width:70px">
+                                <label for="Numero">Numero</label>
+                                <input value.bind="Numero" type="text" class="form-control" id="Numero" placeholder="Nro." style="width:80px" disabled />
+                            </div>
+                            <div class="input-group" style="width:200px">
+                                <label for="NomeParceiro">Nome Parceiro</label>
+                                <input value.bind="NomeParceiro" type="text" class="form-control" id="NomeParceiro" placeholder="Nome Parceiro" disabled />
+                            </div>
+                            <div class="input-group">
+                                <label for="Nome">Titulo da imagem</label>
+                                <input value.bind="Nome" type="text" class="form-control" id="Nome" placeholder="Nome Imagem" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-1">
+                        <form class="form" enctype="multipart/form-data">
+                            <label for="inputFile">Anexo</label>
+                            <span class="input-group-btn">
+                                <span class="btn btn-default btn-file">
+                                    <i class="fas fa-file-alt" aria-hidden="true"></i>
+                                    <input id="inputFile" type="file" multiple files.bind="selectedFiles">
+                                </span>
+                                <button class="btn btn-default" click.trigger="DoCarregarAnexos()" data-toggle="tooltip" data-placement="bottom" title="Recarregar a lista.">
+                                    <i class="fas fa-sync" aria-hidden="true"></i>
+                                </button>
+                                    
+                            </span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default" if.bind="selectedFiles.length > 0">
+                <div class="panel-heading">
+                    Anexo Selecionado
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <lo repeat.for="file of selectedFiles | fileListToArray">
+                            <div class="col-xs-12 col-sm-6 col-md-1">
+                                <img class="img-rounded" src.bind="file | blobToUrl" width="90" height="80"><img>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-11">
+                                <h2>${file.name}: ${file.type} ${file.size / 1000} </h2>
+                                Modificado: ${file.lastModifiedDate}
+                            </div>
+                        </lo>
+                    </ul>                            
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Lista de anexos
+                </div>
+                <div class="panel-body">
+
+                    <ul class="list-group">
+                        <lo repeat.for="anex of lstAnex">
+                            <button type="button" class="list-group-item" click.trigger="DoEditarAnexo(anex)">
+                                <div class="col-xs-12 col-sm-6 col-md-1">
+                                    <img class="img-rounded" srcset="${anex.linkAnexo}" width="90" height="80">
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-11">
+                                    <h4>${anex.id} - ${anex.nome}</h4>
+                                </div>
+                            </button>
+                        </lo>
+                    </ul>
+
+                </div>
+            </div>
+        </div>
+        <div show.bind="isVisibleGrid">
+            <compose view-model="../orcamento/orcamentolst"></compose>
+        </div>
+    </section>
+</template>

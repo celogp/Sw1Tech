@@ -1,0 +1,136 @@
+<template>
+    <section class="au-animate">
+        <compose view-model="../toolbar/tool-barorca"></compose>
+        <compose view-model="../msgerror/msg-error"></compose>
+        <require from="../resources/value-converters/valor"></require>
+        <div show.bind="isVisibleForm">
+            <!-- cabeçalho !-->
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="input-group" style="width:90px">
+                            <label for="Id">Id</label>
+                            <div class="search input-group" role="search">
+                                <input value.bind="Id" type="text" class="form-control" id="Id" placeholder="Id." style="width:90px" maxlength="${MaxNumero}" disabled/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" click.trigger="DoAtivaLstOrcamento()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                        <span class="fa fa-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                                
+                        <div class="input-group" style="width:80px">
+                            <label for="Numero">Numero</label>
+                            <input value.bind="Numero" type="text" class="form-control" id="Numero" placeholder="Nro." style="width:80px" maxlength="${MaxNumero}" />
+                        </div>
+                        
+                        <div class="input-group" style="width:150px">
+                            <label for="Projeto">Projeto</label>
+                            <input value.bind="Projeto" type="text" class="form-control" id="Projeto" placeholder="Projeto" maxlength="${MaxProjeto}" />
+                        </div>
+                        <div class="input-group" style="width:150px">
+                            <label for="DtMovimento">Data</label>
+                            <input value.bind="DtMovimento" type="date" class="form-control" id="DtMovimento" placeholder="Dt.Movto." style="width:150px" />
+                        </div>
+                        <div class="input-group" style="width:100px">
+                            <label for="ParceiroId">Parceiro</label>
+                            <div class="search input-group" role="search">
+                                <input value.bind="ParceiroId & validate" type="search" class="form-control" id="ParceiroId" placeholder="ParceiroId" maxlength="${MaxParceiroId}" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" click.trigger="DoAtivaLstParceiro()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                        <span class="fa fa-search"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="input-group" style="width:200px">
+                            <label for="NomeParceiro">Nome Parceiro</label>
+                            <input value.bind="NomeParceiro" type="text" class="form-control" id="NomeParceiro" placeholder="Nome Parceiro" disabled/>
+                        </div>
+                        <div class="input-group" style="width:50px">
+                            <label for="DiaValidade">Val.</label>
+                            <input value.bind="DiaValidade & validate" type="text" class="form-control" id="DiaValidade" placeholder="Dias" maxlength="${MaxDiaValidade}" />
+                        </div>
+
+                        <div class="input-group" style="width:150px">
+                            <label for="DtEntrega">Entrega</label>
+                            <input value.bind="DtEntrega & validate" type="date" class="form-control" id="DtEntrega" placeholder="Dt.Entrega" style="width:150px" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Ambientes !-->
+            <div show.bind="isFrmAmbientes">
+                <compose view-model="./ambiente"></compose>
+            </div>
+            <!-- Financeiro !-->
+            <div show.bind="isFrmFinanceiro">
+                <compose view-model="./financeiro"></compose>
+            </div>
+            <!-- Bases !-->
+            <div show.bind="isFrmBases">
+                <compose view-model="./bases"></compose>
+            </div>
+            <!-- Resumo do orçamento!-->
+            <div show.bind="isLstResumo">
+                <compose view-model="./resumo"></compose>
+            </div>
+            
+            <div show.bind="!isFrmAmbientes && !isFrmFinanceiro && !isFrmBases && !isLstResumo">
+                <!-- Itens !-->
+                <compose view-model="./orcamentoitem"></compose>
+            </div>
+            <!-- Totais do orçamento -->
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="row form-inline">
+                        <div class="col-xs-12 col-sm-6 col-md-10">
+                            <div class="input-group" style="width:150px">
+                                <label for="TotBases">Tot.Base</label>
+                                <input value.bind="TotBases | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="Tot.Bases" id="TotBases" disabled/>
+                            </div>
+                            <div class="input-group" style="width:150px">
+                                <label for="TotAcabamentos">Tot.Acabamentos</label>
+                                <input value.bind="TotAcabamentos | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="Tot.Acabamentos" id="TotAcabamentos" disabled/>
+                            </div>
+                            <div class="input-group" style="width:150px">
+                                <label for="TotAcessorios">Tot.Acessorios</label>
+                                <input value.bind="TotAcessorios | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="Tot.Acabamentos" id="TotAcessorios" disabled/>
+                            </div>
+                            <div class="input-group" style="width:150px">
+                                <label for="TotServicos">Tot.Serviços</label>
+                                <input value.bind="TotServicos | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="Tot.Serviços" id="TotServicos" disabled/>
+                            </div>
+
+                            <div class="input-group" show.bind="!isFrmAmbientes && !isFrmFinanceiro && !isFrmBases && !isLstResumo">
+                                <div class="input-group" style="width:150px">
+                                    <label for="PerDesconto">% Desconto</label>
+                                    <input value.bind="PerDesconto | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="% Desconto" id="PerDesconto" maxlength="${MaxPercDesconto}" />
+                                </div>
+                                <div class="input-group" style="width:150px">
+                                    <label for="VlrDesconto">Vlr.Desconto</label>
+                                    <input value.bind="VlrDesconto | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="Vlr.Desconto" id="VlrDesconto" maxlength="${MaxVlrDesconto}" />
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2">
+                            <div class="input-group">
+                                <label for="TotOrcamento">Vlr.Total</label>
+                                <input value.one-way ="GetTotOrcamento | valor" type="text" class="form-control" placeholder="Total Orçamento" id="TotOrcamento" disabled/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+                
+        </div>
+        <div show.bind="isVisibleGrid">
+            <compose view-model="./orcamentolst"></compose>
+            <compose view-model="../parceiro/parceirolst"></compose>
+            <compose view-model="../produto/produtolst"></compose>
+            <compose view-model="../modelo/modelolst"></compose>
+        </div>
+    </section>
+</template>

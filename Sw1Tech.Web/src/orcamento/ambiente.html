@@ -1,0 +1,81 @@
+<template>
+    <require from="../resources/value-converters/valor"></require>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-9">
+                    <h4>
+                        Ambientes
+                    </h4>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-3">
+                    <button class="btn btn-default" click.trigger="DoAtivarFrmAmbiente()" data-toggle="tooltip" data-placement="bottom" title="Alternar para produto/detalhe.">
+                        <i class="fas fa-exchange-alt" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-default" click.trigger="DoSalvarAmbientes()" data-toggle="tooltip" data-placement="bottom" title="Salvar registro.">
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-default" click.trigger="DoObterSomaAmbientes()" data-toggle="tooltip" data-placement="bottom" title="Recarregar lista.">
+                        <i class="fas fa-sync" aria-hidden="true"></i>
+                    </button>
+                    <button class="btn btn-default" click.trigger="DoDuplicarAmbientes()" data-toggle="tooltip" data-placement="bottom" title="Duplicar ambiente escolhido.">
+                        <i class="fas fa-paste" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row form-inline">
+                        <div class="col-xs-12 col-sm-6 col-md-10">
+                            <div class="input-group">
+                                <label for="orcamentoItem.VlrBrutoAmbiente">Vlr.Bruto</label>
+                                <input value.bind="orcamentoItem.VlrBrutoAmbiente | valor" type="text" class="form-control" id="orcamentoItem.VlrBrutoAmbiente" placeholder="Total Bruto" disabled/>
+                            </div>
+                            <div class="input-group">
+                                <label for="orcamentoItem.PerDescontoAmbiente">% Desconto</label>
+                                <input value.bind="orcamentoItem.PerDescontoAmbiente | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="% Desconto" id="orcamentoItem.PerDescontoAmbiente" maxlength="${orcamentoItem.MaxPerDesconto}"/>
+                            </div>
+                            <div class="input-group">
+                                <label for="orcamentoItem.VlrDescontoAmbiente">Vlr.Desconto</label>
+                                <input value.bind="orcamentoItem.VlrDescontoAmbiente | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="Vlr.Desconto" id="orcamentoItem.VlrDescontoAmbiente" maxlength="${orcamentoItem.MaxVlrDesconto}"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2">
+                            <div class="input-group">
+                                <label for="orcamentoItem.GetVlrTotalAmbiente">Vlr.Total</label>
+                                <input value.one-way = "orcamentoItem.GetVlrTotalAmbiente | valor" type="text" class="form-control" id="orcamentoItem.VlrTotalAmbiente" placeholder="Total" disabled/>
+                            </div>
+                        </div>
+                                        
+                    </div>                        
+                </div>
+            </div>
+                        
+            <ul class="list-group">
+                <lo repeat.for="orcaAmbi of orcamentoItem.lstSAmb">
+                                    
+                    <button type="button" class="list-group-item" click.trigger="DoEditarAmbiente(orcaAmbi)">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <h4 class="list-group-item-heading">
+                                ${orcaAmbi.ambiente}
+                            </h4>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2" align="right">
+                            Vlr.Bruto : ${orcaAmbi.vlrBruto | valor}
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2" align="right">
+                            Desc.R$: ${orcaAmbi.vlrDesconto | valor}
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-2" align="right">
+                            Vlr.Total : R$ ${orcaAmbi.vlrTotal | valor}
+                        </div>
+                    </button>
+                        
+                </lo>
+            </ul>
+        </div>
+    </div>
+
+</template>

@@ -1,0 +1,38 @@
+<template>
+    <require from="../resources/value-converters/phone"></require>
+    <require from="../resources/value-converters/cnpj"></require>
+    <require from="../resources/value-converters/cpf"></require>
+    <require from="../resources/value-converters/cep"></require>
+    <div show.bind="isPesqParceiro">
+        <ul class="list-group">
+            <lo repeat.for="parc of lstParc">
+                <button type="button" class="list-group-item" click.trigger="DoEditar(parc)">
+                    <div class="col-xs-12 col-sm-6 col-md-5">
+                        <h4 class="list-group-item-heading">
+                            Id : ${parc.id} 
+                            Nome : ${parc.nome}
+                        </h4>
+                        <p class="list-group-item-text">
+                            Logradouro: ${parc.localizacao.logradouro}, Complemento: ${parc.localizacao.complemento} 
+                        </p>
+                        <p class="list-group-item-text">Cnpj : ${parc.cnpj | cnpj }</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-5">
+                        Razão: ${parc.razao}  
+                        Email: ${parc.email}
+                        <p class="list-group-item-text">
+                            Localidade: ${parc.localizacao.localidade} - ${parc.localizacao.uf}, Bairro: ${parc.localizacao.bairro}
+                        </p>
+                        <p class="list-group-item-text">CPF     : ${parc.cpf | cpf }</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        Fone : ${parc.fone | phone }
+                        <p class="list-group-item-text">Cep  : ${parc.localizacao.cep | cep}</p>
+                        <p class="list-group-item-text">Celular : ${parc.celular | phone }</p>
+                    </div>
+                    
+                </button>
+            </lo>
+        </ul>
+    </div>
+</template>

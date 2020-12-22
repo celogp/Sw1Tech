@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Sw1Tech.App</AssemblyName>
+    <RootNamespace>Sw1Tech.App</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sw1Tech.Domain\Sw1Tech.Domain.csproj" />
+    <ProjectReference Include="..\Sw1Tech.Infra.Context\Sw1Tech.Infra.Context.csproj" />
+    <ProjectReference Include="..\Sw1Tech.Infra.Repository\Sw1Tech.Infra.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

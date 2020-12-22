@@ -1,0 +1,55 @@
+<template>
+    <div class="container" style="margin-top:80px">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div> <strong>Atualizar a Senha</strong></div>
+                    </div>
+
+                    <div class="panel-body">
+                        <form role="form">
+
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6 col-md-offset-3">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-lock"></i>
+                                            </span>
+                                            <input class="form-control" placeholder="Senha Atual" id="Senha" value.bind="Senha & validate" type="password" maxlength='${maxSenha}'>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-lock"></i>
+                                            </span>
+                                            <input class="form-control" placeholder="Nova Senha" id="SenhaNova" value.bind="SenhaNova & validate" type="password" maxlength='${maxSenhaNova}'>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-key"></i>
+                                            </span>
+                                            <input class="form-control" placeholder="Confirmar Senha" id="SenhaConfirmada" value.bind="SenhaConfirmada & validate" type="password" maxlength='${maxSenhaConfirmada}'>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-lg btn-default btn-block" click.trigger="DoAtualizarSenha()" type="submit" data-toggle="tooltip" data-placement="bottom" title="Atualizar a senha."><span class="fa fa-check" aria-hidden="true"></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="panel-footer">
+                        <compose view-model="../msgerror/msg-error"></compose>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

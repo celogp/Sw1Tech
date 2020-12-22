@@ -1,0 +1,237 @@
+<template>
+    <require from="../resources/value-converters/valor"></require>
+    <require from="../resources/value-converters/qtd"></require>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-9">
+                    <h4>Resumo</h4>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-2">
+                    <button class="btn btn-default" click.trigger="DoAtivarLstResumo()" data-toggle="tooltip" data-placement="bottom" title="Alternar para produto/detalhe.">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+                    <button class="btn btn-default" click.trigger="DoObterSomaDetalhes()" data-toggle="tooltip" data-placement="bottom" title="Recarregar lista.">
+                        <i class="fas fa-sync" ></i>
+                    </button>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-1" align="right">
+                    <h5>
+                        <i if.bind="orcamentoItem.PerLucro<=0" class="fa fa-thumbs-down" style="color:red;"></i>
+                        <i if.bind="orcamentoItem.PerLucro>0" class="fa fa-thumbs-up" style="color:blue;"></i>
+                        ${orcamentoItem.PerLucro | valor} %
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <div class="panel-body">
+            <!-- listagem de produtos Bases !-->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwoDetalhe">
+                    <div class="row">
+                        <h4 class="panel-title">
+                            <div class="col-xs-5 col-sm-5 col-md-10">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwoDetalhe" aria-controls="collapseTwoDetalhe">
+                                    Base
+                                </a>
+                            </div>
+                            <div class="col-xs-7 col-sm-7 col-md-2" align="right">
+                                <i if.bind="orcamentoItem.PerLucroBase<=0" class="fa fa-thumbs-down"  style="color:red;"></i>
+                                <i if.bind="orcamentoItem.PerLucroBase>0" class="fa fa-thumbs-up"  style="color:blue;"></i>
+                                ${orcamentoItem.PerLucroBase | valor} %
+                            </div>            
+                        </h4>
+                    </div>
+                </div>
+                <div id="collapseTwoDetalhe" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwoDetalhe">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <lo repeat.for="orcaBase of orcamentoItem.lstPbas">
+                                <button type="button" class="list-group-item">
+                                    <div class="col-xs-12 col-sm-6 col-md-4">
+                                        <h4 class="list-group-item-heading">${orcaBase.produto.nome} - ${orcaBase.produto.volume} </h4>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-7">
+                                        Qtd. : ${orcaBase.quantidade * orcaBase.quantidadeKit | qtd} Vlr.Unitário : R$ ${orcaBase.vlrUnitario | valor}
+                                        Area : ${orcaBase.area} 
+                                        Desc.% : ${orcaBase.perDesconto | valor} 
+                                        Desc.R$ : ${orcaBase.vlrDesconto | valor}
+                                        Desc.Ind: ${orcaBase.indDescontoProdutoFinal}
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-1" align="right">
+                                        R$ ${orcaBase.vlrTotal | valor}
+                                    </div>
+                                </button>
+                            </lo>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- listagem de acabamentos !-->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTreeDetalhe">
+                    <div class="row">
+                        <h4 class="panel-title">
+                            <div class="col-xs-5 col-sm-5 col-md-10">
+                                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTreeDetalhe" aria-controls="collapseTreeDetalhe">
+                                    Componentes
+                                </a>
+                            </div>                    
+                            <div class="col-xs-7 col-sm-7 col-md-2" align="right">
+                                <i if.bind="orcamentoItem.PerLucroAcab<=0" class="fa fa-thumbs-down" style="color:red;"></i>
+                                <i if.bind="orcamentoItem.PerLucroAcab>0" class="fa fa-thumbs-up" style="color:blue;"></i>
+                                ${orcamentoItem.PerLucroAcab | valor} %
+                            </div>            
+                        </h4>
+                    </div>
+                </div>
+                <div id="collapseTreeDetalhe" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTreeDetalhe">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <lo repeat.for="orcaAcab of orcamentoItem.lstPaca">
+                                <button type="button" class="list-group-item">
+                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                        <h4 class="list-group-item-heading"> ${orcamentoItem.DoObterBaseDetalhe(orcaAcab.rootId)} ${orcaAcab.produto.nome} - ${orcaAcab.produto.volume}</h4>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        Qtd. : ${orcaAcab.quantidade * orcaAcab.quantidadeKit | qtd} Vlr.Unitário : R$ ${orcaAcab.vlrUnitario | valor}
+                                        Area : ${orcaAcab.area}
+                                        Desc.% : ${orcaAcab.perDesconto | valor} 
+                                        Desc.R$ : ${orcaAcab.vlrDesconto | valor}
+                                        Desc.Ind: ${orcaAcab.indDescontoProdutoFinal}
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-1" align="right">
+                                        R$ ${orcaAcab.vlrTotal | valor}
+                                    </div>
+                                </button>
+                            </lo>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- listagem de acessorios !-->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFourDetalhe">
+                    <div class="row">
+                        <h4 class="panel-title">
+                            <div class="col-xs-5 col-sm-5 col-md-10">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFourDetalhe" aria-expanded="false" aria-controls="collapseFourDetalhe">
+                                    Acessórios
+                                </a>
+                            </div>
+                            <div class="col-xs-7 col-sm-7 col-md-2" align="right">
+                                <i if.bind="orcamentoItem.PerLucroAces<=0" class="fa fa-thumbs-down" style="color:red;"></i>
+                                <i if.bind="orcamentoItem.PerLucroAces>0" class="fa fa-thumbs-up" style="color:blue;"></i>
+                                ${orcamentoItem.PerLucroAces | valor} %
+                            </div>
+                        </h4>
+                    </div>
+                </div>
+                <div id="collapseFourDetalhe" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFourDetalhe">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <lo repeat.for="orcaAces of orcamentoItem.lstPace">
+                                <button type="button" class="list-group-item">
+                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                        <h4 class="list-group-item-heading">${orcamentoItem.DoObterBaseDetalhe(orcaAces.rootId)} ${orcaAces.produto.nome} - ${orcaAces.produto.volume} </h4>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        Qtd. : ${orcaAces.quantidade * orcaAces.quantidadeKit | qtd} Vlr.Unitário : R$ ${orcaAces.vlrUnitario | valor}
+                                        Area : ${orcaAces.area}
+                                        Desc.% : ${orcaAces.perDesconto | valor} 
+                                        Desc.R$ : ${orcaAces.vlrDesconto | valor}
+                                        Desc.Ind: ${orcaAces.indDescontoProdutoFinal}
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-1" align="right">
+                                        R$ ${orcaAces.vlrTotal | valor}
+                                    </div>
+                                </button>
+                            </lo>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- listagem de serviços !-->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingFiveDetalhe">
+                    <div class="row">
+                        <h4 class="panel-title">
+                            <div class="col-xs-5 col-sm-5 col-md-10">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFiveDetalhe" aria-expanded="false" aria-controls="collapseFiveDetalhe">
+                                    Serviços
+                                </a>
+                            </div>
+                            <div class="col-xs-7 col-sm-7 col-md-2" align="right">
+                                <i if.bind="orcamentoItem.PerLucroServ<=0" class="fa fa-thumbs-down" style="color:red;"></i>
+                                <i if.bind="orcamentoItem.PerLucroServ>0" class="fa fa-thumbs-up" style="color:blue;"></i>
+                                ${orcamentoItem.PerLucroServ | valor} %
+                            </div>
+                        </h4>
+                    </div>
+                </div>
+                <div id="collapseFiveDetalhe" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFiveDetalhe">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <lo repeat.for="orcaServ of orcamentoItem.lstPser">
+                                <button type="button" class="list-group-item">
+                                    <div class="col-xs-12 col-sm-6 col-md-5">
+                                        <h4 class="list-group-item-heading">${orcamentoItem.DoObterBaseDetalhe(orcaServ.rootId)} ${orcaServ.produto.nome} - ${orcaServ.produto.volume} </h4>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        Qtd. : ${orcaServ.quantidade * orcaServ.quantidadeKit | qtd} Valor Unitário : ${orcaServ.vlrUnitario | valor}
+                                        Area : ${orcaServ.area}
+                                        Desc.% : ${orcaServ.perDesconto | valor} 
+                                        Desc.R$ : ${orcaServ.vlrDesconto | valor}
+                                        Desc.Ind: ${orcaServ.indDescontoProdutoFinal}
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-1" align="right">
+                                        R$ ${orcaServ.vlrTotal | valor}
+                                    </div>
+                                </button>
+                            </lo>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- listagem de financeiros simulados!-->
+            <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingSixDetalhe">
+                    <div class="row">
+                        <h4 class="panel-title">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSixDetalhe" aria-expanded="false" aria-controls="collapseSixDetalhe">
+                                    Simulação financeira
+                                </a>
+                            </div>
+                        </h4>
+                    </div>
+                </div>
+                <div id="collapseSixDetalhe" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSixDetalhe">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <lo repeat.for="Fpgt of financeiro.lstFpgt">
+                                <button type="button" class="list-group-item">
+                                    <div class="col-xs-12 col-sm-6 col-md-6">
+                                        <h4 class="list-group-item-heading">
+                                            ${Fpgt.nome}
+                                        </h4>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-2">
+                                        Parcelas : ${Fpgt.parcelas}
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-2">
+                                        Taxa : ${Fpgt.taxa} 
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-2" align="right">
+                                        Vlr.Parcela : R$ ${ financeiro.DoCalcularParcela(Fpgt.taxa, financeiro.VlrPendente) | valor }
+                                    </div>
+                                </button>
+                            </lo>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

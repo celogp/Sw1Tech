@@ -1,0 +1,11 @@
+<template>
+    <div show.bind="isPesqBairro">
+        <ul class="list-group">
+            <lo repeat.for="bair of lstBair">
+                <button type="button" class="list-group-item" click.trigger="DoEditar(bair)">
+                    ${bair.bairro}
+                </button>
+            </lo>
+        </ul>
+    </div>
+</template>

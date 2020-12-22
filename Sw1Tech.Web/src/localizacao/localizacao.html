@@ -1,0 +1,86 @@
+<template>
+    <section class="au-animate">
+        <require from="../resources/value-converters/cep"></require>
+        <compose view-model="../toolbar/tool-bar"></compose>
+        <compose view-model="../msgerror/msg-error"></compose>
+
+        <div show.bind="isVisibleForm">
+            <form class="form">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-1">
+                        <label for="id">Id</label>
+                        <div class="search input-group" role="search" style="width: 110px">
+                            <input value.bind="Id" type="search" class="form-control" id="Id" placeholder="Id" maxlength='${maxId}' disabled/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" click.trigger="DoAtivaLstLocalizacao()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-5">
+                        <label for="Logradouro">Logradouro</label>
+                        <input type="text" value.bind="Logradouro & validate" class="form-control" id="Logradouro" placeholder="Logradouro" maxlength=${maxLogradouro}>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-2" style="width: 170px">
+                        <label for="Nome">Cep</label>
+                        <div class="search input-group" role="search">
+                            <input type="text" value.bind="Cep | cep & validate" class="form-control" id="Cep" placeholder="Cep" maxlength='${maxCep}'>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" click.trigger="DoAtivaLstCepCorreio()" data-toggle="tooltip" data-placement="bottom" title="Procurar CEP nos correios.">
+                                    <span class="fa fa-envelope"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <label for="Complemento">Complemento</label>
+                        <input type="text" value.bind="Complemento" class="form-control" id="Complemento" placeholder="Complemento" maxlength=${maxComplemento}>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <label for="Bairro">Bairro</label>
+                        <div class="search input-group" role="search">
+                            <input type="text" value.bind="Bairro & validate" class="form-control" id="Bairro" placeholder="Bairro" maxlength=${maxBairro}>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" click.trigger="DoAtivaLstBairro()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <label for="Localidade">Localidade</label>
+                        <div class="search input-group" role="search">
+                            <input type="text" value.bind="Localidade & validate" class="form-control" id="Localidade" placeholder="Localidade" maxlength=${maxLocalidade}>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" click.trigger="DoAtivaLstLocalidade()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-3">
+                        <label for="Uf">UF</label>
+                        <select class="form-control" value.bind="Uf & validate" id="Uf">
+                            <option repeat.for="lstUf of lstUf" model.bind="lstUf.sigla">${lstUf.sigla} - ${lstUf.nome}</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div show.bind="isVisibleGrid">
+            <compose view-model="../localizacao/localizacaolst"></compose>
+            <compose view-model="../localizacao/localidadelst"></compose>
+            <compose view-model="../localizacao/bairrolst"></compose>
+        </div>
+    </section>
+</template>

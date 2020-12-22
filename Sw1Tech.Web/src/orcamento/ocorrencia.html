@@ -1,0 +1,148 @@
+<template>
+    <section class="au-animate">
+        <compose view-model="../toolbar/tool-bar"></compose>
+        <compose view-model="../msgerror/msg-error"></compose>
+        <require from="../resources/value-converters/data"></require>
+        <require from="../resources/value-converters/filelisttoarray"></require>
+        <require from="../resources/value-converters/blobtourl"></require>
+
+        <div show.bind="isVisibleForm">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="form-inline">
+                        <div class="col-xs-12 col-sm-6 col-md-11">
+                            <div class="input-group" style="width:85px">
+                                <label for="OrcamentoId">Id.Orçamento</label>
+                                <div class="search input-group" role="search">
+                                    <input value.bind="OrcamentoId" type="text" class="form-control" id="Id" placeholder="OrcamentoId." style="width:90px" maxlength="${MaxId}" disabled/>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" click.trigger="DoAtivaLstOrcamento()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                            <span class="fa fa-search"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="input-group" style="width:70px">
+                                <label for="Numero">Numero</label>
+                                <input value.bind="Numero" type="text" class="form-control" id="Numero" placeholder="Nro." style="width:80px" disabled/>
+                            </div>
+                            <div class="input-group">
+                                <label for="NomeParceiro">Nome</label>
+                                <input value.bind="NomeParceiro" type="text" class="form-control" id="NomeParceiro" placeholder="Nome Parceiro" disabled/>
+                            </div>
+                        </div>
+                    </form>
+                    <form class="form-inline">
+                        <div class="col-xs-12 col-sm-6 col-md-11">
+                            <div class="input-group" style="width:90px">
+                                <label for="OcorrenciaId">Ocorrência</label>
+                                <div class="search input-group" role="search">
+                                    <input value.bind="OcorrenciaId & validate" type="search" class="form-control" id="OcorrenciaId" placeholder="OcorrenciaId" maxlength="${MaxOcorrenciaId}"/>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" click.trigger="DoAtivaLstOcorrencia()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                            <span class="fa fa-search"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="NomeOcorrencia">Nome</label>
+                                <input value.bind="NomeOcorrencia" type="text" class="form-control" id="NomeOcorrencia" placeholder="Ocorrencia" disabled/>
+                            </div>
+                            <div class="input-group" style="width:90px">
+                                <label for="UsuarioId">Usuario</label>
+                                <div class="search input-group" role="search">
+                                    <input value.bind="UsuarioId & validate" type="search" class="form-control" id="UsuarioId" placeholder="UsuarioId" maxlength="${MaxUsuarioId}"/>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" click.trigger="DoAtivaLstUsuario()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                            <span class="fa fa-search"></span>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="NomeUsuario">Nome</label>
+                                <input value.bind="NomeUsuario" type="text" class="form-control" id="NomeUsuario" placeholder="Usuario" disabled/>
+                            </div>
+                            <div class="input-group" style="width:150px">
+                                <label for="DtOcorrencia">Dt.ocorrencia</label>
+                                <input value.bind="DtOcorrencia & validate" type="date" class="form-control" id="DtOcorrencia" placeholder="Dt.Ocorrencia" style="width:150px"/>
+                            </div>
+                            <div class="input-group">
+                                <label for="Historico">Histórico</label>
+                                <input value.bind="Historico" type="text" class="form-control" id="Historico" placeholder="Historico"/>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-1">
+                            <form class="form" enctype="multipart/form-data">
+                                <label for="inputFile">Anexo</label>
+                                <span class="input-group-btn">
+                                    <span class="btn btn-default btn-file">
+                                        <i class="fas fa-file-alt" aria-hidden="true"></i>
+                                        <input id="inputFile" type="file" multiple files.bind="selectedFiles">
+                                    </span>
+                                    <button class="btn btn-default" click.trigger="DoCarregarAnexos()" data-toggle="tooltip" data-placement="bottom" title="Recarregar lista.">
+                                        <i class="fas fa-sync" aria-hidden="true"></i>
+                                    </button>
+                                </span>
+                            </form>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel panel-default" if.bind="selectedFiles.length > 0">
+                <div class="panel-heading">
+                    Anexo Selecionado
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <lo repeat.for="file of selectedFiles | fileListToArray">
+                            <div class="col-xs-12 col-sm-6 col-md-1">
+                                <img class="img-rounded" src.bind="file | blobToUrl" width="90" height="80"><img>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-11">
+                                <h2>${file.name}: ${file.type} ${file.size / 1000} </h2>
+                                Modificado: ${file.lastModifiedDate}
+                            </div>
+                        </lo>
+                    </ul>                            
+                </div>
+            </div>
+                
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Lista de Ocorrências
+                </div>
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <lo repeat.for="orcO of lstOcoO">
+                            <button type="button" class="list-group-item" click.trigger="DoEditarOcorrencia(orcO)">
+                                <div class="col-xs-12 col-sm-6 col-md-1">
+                                    <img class="img-rounded" srcset="${orcO.linkAnexo}" width="90" height="80">
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    <h4 class="list-group-item-heading">${orcO.ocorrencia.nome}</h4>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-2">
+                                    <p class="list-group-item-text">Usuario : ${orcO.usuario.nome} </p>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    <p class="list-group-item-text">Dt.Ocorrencia : ${orcO.dtOcorrencia | data:"H"}</p>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    <p class="list-group-item-text"> Historico : ${orcO.historico}</p>
+                                </div>
+                            </button>
+                        </lo>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div show.bind="isVisibleGrid">
+            <compose view-model="../orcamento/orcamentolst"></compose>
+            <compose view-model="../usuario/usuariolst"></compose>
+            <compose view-model="../ocorrencia/ocorrencialst"></compose>
+        </div>
+    </section>
+</template>

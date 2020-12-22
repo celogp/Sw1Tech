@@ -1,0 +1,11 @@
+<template>
+    <div show.bind="isPesqLocalidade">
+        <ul class="list-group">
+            <lo repeat.for="loca of lstLocalidade">
+                <button type="button" class="list-group-item" click.trigger="DoEditar(loca)">
+                    ${loca.localidade} - ${loca.uf}
+                </button>
+            </lo>
+        </ul>
+    </div>
+</template>

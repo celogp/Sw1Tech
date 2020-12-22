@@ -1,0 +1,142 @@
+<template>
+    <section class="au-animate">
+        <require from="../resources/value-converters/phone"></require>
+        <require from="../resources/value-converters/cnpj"></require>
+        <require from="../resources/value-converters/cpf"></require>
+        <require from="../resources/value-converters/verdadeiro"></require>
+        <compose view-model="../toolbar/tool-bar"></compose>
+        <compose view-model="../msgerror/msg-error"></compose>
+        <div show.bind="isVisibleForm">
+            <form class="form">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-1">
+                        <label for="Id">Id</label>
+                        <div class="search input-group" role="search" style="width: 110px">
+                            <input value.bind="Id" type="search" class="form-control" id="Id" placeholder="Id" maxlength='${maxId}' disabled/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" click.trigger="DoAtivaLstParceiro()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-5">
+                        <label for="Nome">Nome</label>
+                        <input type="text" value.bind="Nome & validate" class="form-control" id="Nome" placeholder="Nome do parceiro" maxlength='${maxNome}'>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <label for="Cpf">CPF</label>
+                        <input type="text" value.bind="Cpf | cpf" class="form-control" id="Cpf" placeholder="Cpf" maxlength='${maxCpf}'>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <label for="Razao">Razão</label>
+                        <input type="text" value.bind="Razao & validate" class="form-control" id="Razao" placeholder="Razão social" maxlength='${maxRazao}'>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <label for="Email">Email</label>
+                        <input type="Email" value.bind="Email & validate" class="form-control" id="Email" placeholder="Email" maxlength='${maxEmail}'>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-1">
+                        <label for="LocalizacaoId">Id</label>
+                        <div class="search input-group" role="search" style="width: 120px">
+                            <input value.bind="LocalizacaoId & validate: integerRange" type="search" class="form-control" id="LocalizacaoId" placeholder="Id" maxlength='${maxLocalizacaoId}'/>
+                            <span class="input-group-btn"  style="width: 50px">
+                                <button class="btn btn-default" type="button" click.trigger="DoAtivaLstLocalizacao()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-5">
+                        <label for="Logradouro">Logradouro</label>
+                        <div class="search input-group" role="search">
+                            <input value.bind="Logradouro" type="text" class="form-control" id="Logradouro" placeholder="Logradouro" disabled="true"/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" click.trigger="DoAtivaLstCepCorreio()" data-toggle="tooltip" data-placement="bottom" title="Procurar CEP nos correios.">
+                                    <span class="fa fa-envelope"></span>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <label for="Sexo">Sexo</label>
+                        <select class="form-control" value.bind="sexo" id="sexo">
+                            <option repeat.for="lstSexo of lstSexo" model.bind="lstSexo.id">${lstSexo.nome}</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <label for="Cnpj">Cnpj</label>
+                        <input type="text" value.bind="Cnpj | cnpj" class="form-control" id="Cnpj" placeholder="Cnpj" maxlength='${maxCnpj}'>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <label for="Inscricao">Inscrição</label>
+                        <input type="text" value.bind="Inscricao" class="form-control" id="Inscricao" placeholder="Inscrição" maxlength='${maxInscricao}'>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <label for="Identidade">Identidade</label>
+                        <input type="text" value.bind="Identidade" class="form-control" id="Identidade" placeholder="Identidade" maxlength='${maxIdentidade}'>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <label for="Fone">Fone</label>
+                        <input type="text" value.bind="Fone | phone" class="form-control" id="Fone" placeholder="Fone" maxlength='${maxFone}'>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <label for="Contato">Contato</label>
+                        <input type="text" value.bind="Contato" class="form-control" id="Contato" placeholder="Contato" maxlength='${maxContato}'>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <label for="Celular"> Celular e WhatsApp <input class="checkbox-inline" type="checkbox" checked.bind="CelularIsWhatsApp"> </label>
+                        <input type="text" value.bind="Celular | phone" class="form-control" id="Celular" placeholder="Celular" maxlength='${maxCelular}'>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <label for="CelularContato"> Cel.Contato e WhatsApp <input class="checkbox-inline" type="checkbox" checked.bind="CelularContatoIsWhatsApp"> </label>
+                        <input type="text" value.bind="CelularContato | phone" class="form-control" id="CelularContato" placeholder="Celular Contato" maxlength='${maxCelularContato}'>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-2">
+                        <label>Fone Contato</label>
+                        <input type="text" value.bind="FoneContato | phone" class="form-control" id="Fonecontato" placeholder="Fone Contato" maxlength='${maxFoneContato}'>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+        <div show.bind="isVisibleGrid">
+            <compose view-model="./parceirolst"></compose>
+            <compose view-model="../localizacao/localizacaolst"></compose>
+        </div>
+    </section>
+</template>

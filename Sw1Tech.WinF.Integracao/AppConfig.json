@@ -1,0 +1,7 @@
+﻿{
+  "Connection": "Server=localhost; Port=3306; Database=solpedras; Uid=comercial; Pwd=pgcadmin;",
+  "Url": "http://localhost:9090/api/",
+  //"Url": "http://sw1tech.com.br.asp.hostazul.com.br/api/api/",
+  "UsrSw1": "MARCELO",
+  "PwdSw1": "1234" 
+}

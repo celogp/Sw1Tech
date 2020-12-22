@@ -1,0 +1,48 @@
+<template>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-7">
+                    <h4>
+                        <label>${heading}</label>
+                        <a if.bind="isAjaxServer">
+                            <i class="fas fa-sync fa-spin fa-1x fa-fw"></i>
+                        </a>
+                    </h4>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-5">
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <select class="form-control" value.bind="CpoPesquisa" id="CpoPesquisa" if.bind="CpoPesquisa" show.bind="!isVisibleForm" data-toggle="tooltip" data-placement="bottom" title="Opções de procura.">
+                                <option repeat.for="lstOpc of LstCpoPesquisa" value.bind="lstOpc.nome">${lstOpc.nome}</option>
+                            </select>
+                            <input value.bind="txtPesquisa" type="text" class="form-control" show.bind="!isVisibleForm" placeholder="A Procurar por...">
+                            <button class="btn btn-default" show.bind="!isVisibleForm" click.trigger="DoPesquisar()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                            <button class="btn btn-default" click.trigger="DoAtivaGrade()"  data-toggle="tooltip" data-placement="bottom" title="Alternar para pesquisa/formulário.">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <button class="btn btn-default" show.bind="isVisibleForm" click.trigger="DoAdicionar()" data-toggle="tooltip" data-placement="bottom" title="Adicionar registro.">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>                            
+                            <button class="btn btn-default" show.bind="isVisibleForm" click.trigger="DoSalvar()" data-toggle="tooltip" data-placement="bottom" title="Salvar registro.">
+                                <i class="fa fa-check" aria-hidden="true"></i>
+                            </button>
+    
+                            <div class="btn-group">
+                                <button class="btn btn-default dropdown-toggle" show.bind="isVisibleForm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-toggle="tooltip" data-placement="bottom" title="Mais opções.">
+                                    <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#" click.trigger="DoApagar()">Apagar registro</a></li>
+                                    <li><a href="#" click.trigger="DoLimparFormulario()">Limpar formulário</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

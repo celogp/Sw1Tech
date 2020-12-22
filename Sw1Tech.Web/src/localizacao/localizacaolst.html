@@ -1,0 +1,35 @@
+<template>
+    <require from="../resources/value-converters/cep"></require>
+    <div show.bind="isPesqLocalizacao">
+        <ul class="list-group">
+            <lo repeat.for="loca of lstLocalizacao">
+                <button type="button" class="list-group-item" click.trigger="DoEditar(loca)">
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <h4 class="list-group-item-heading">Id : ${loca.id}</h4>
+                            <p class="list-group-item-text">${loca.logradouro}, Complemento: ${loca.complemento}</p>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-6">
+                            <h4 class="list-group-item-heading">Cep : ${loca.cep | cep}</h4>
+                            <p class="list-group-item-text">Localidade : ${loca.localidade} - ${loca.uf} Bairro: ${loca.bairro} </p>
+                        </div>
+                </button>
+            </lo>
+        </ul>
+    </div>
+    <div show.bind="isPesqCepCorreio">
+        <ul class="list-group">
+            <lo repeat.for="correio of lstCepCorreio">
+                <button type="button" class="list-group-item" click.trigger="DoEditar(correio)">
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <h4 class="list-group-item-heading">Id : 0 </h4>
+                        <p class="list-group-item-text">${correio.logradouro}, Complemento: ${correio.complemento}</p>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-6">
+                        <h4 class="list-group-item-heading">Cep : ${correio.cep | cep}</h4>
+                        <p class="list-group-item-text">Localidade : ${correio.localidade} - ${correio.uf} Bairro: ${correio.bairro} </p>
+                    </div>
+                </button>
+            </lo>
+        </ul>
+    </div>    
+</template>

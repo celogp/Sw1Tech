@@ -1,0 +1,14 @@
+<template>
+    <require from="../resources/value-converters/classificacao"></require>
+    <require from="../resources/value-converters/valor"></require>
+    <div show.bind="isPesqProduto">
+        <ul class="list-group">
+            <lo repeat.for="prod of orcamentoItem.lstProd">
+                <button type="button" class="list-group-item" click.trigger="DoEditar(prod)">
+                    <h4 class="list-group-item-heading">Id : ${prod.id}</h4>
+                    <p class="list-group-item-text">${prod.nome} - Volume: ${prod.volume} - Preço : ${prod.preco | valor} - Classificação : ${prod.classificacao | classificacao}</p>
+                </button>
+            </lo>
+        </ul>
+    </div>
+</template>

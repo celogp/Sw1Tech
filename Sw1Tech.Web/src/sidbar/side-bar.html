@@ -1,0 +1,11 @@
+<template bindable="router">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <li repeat.for="row of router.navigation" class="${row.isActive ? 'active' : ''}">
+                <a href.bind="row.href"><i class="${row.settings.icon}"></i> ${row.title}</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /#sidebar-wrapper -->
+</template>

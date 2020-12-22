@@ -1,0 +1,437 @@
+<template>
+    <require from="../resources/value-converters/valor"></require>
+    <require from="../resources/value-converters/qtd"></require>
+    <div class="row form-group">
+        <div class="col-xs-12 col-sm-6 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <!-- botões com Opções !-->
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-9">
+                            <h4>
+                               ${orcamentoItem.heading}
+                            </h4>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-3">
+                            <div show.bind="!isFrmItemPrincipal">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" click.trigger="DoAtivarFrmItem()" data-toggle="tooltip" data-placement="bottom" title="Alternar para lista/formulário.">
+                                            <i class="fa fa-newspaper" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-default" click.trigger="DoAtivarLstPrincipal()" data-toggle="tooltip" data-placement="bottom" title="Alternar para detalhe/produto.">
+                                            <i class="fas fa-exchange-alt" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-default" click.trigger="DoCarregarItensOrcados()" data-toggle="tooltip" data-placement="bottom" title="Recarregar a lista.">
+                                            <i class="fas fa-sync" aria-hidden="true"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div show.bind="isFrmItemPrincipal">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" click.trigger="DoAtivarFrmItem()" data-toggle="tooltip" data-placement="bottom" title="Alternar para lista/formulário.">
+                                            <i class="fa fa-newspaper" aria-hidden="true"></i>
+                                        </button>
+                                        <button class="btn btn-default" click.trigger="DoAdicionarItem()" data-toggle="tooltip" data-placement="bottom" title="Adicionar registro.">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default dropdown-toggle" show.bind="isVisibleForm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" data-toggle="tooltip" data-placement="bottom" title="Mais opções.">
+                                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="#" click.trigger="DoSalvarItem()">Salvar</a>
+                                            </li>
+                                            <li role="separator" class="divider"></li>
+                                            <li>
+                                                <a href="#" click.trigger="DoApagarItem()">Apagar</a>
+                                            </li>
+                                        </ul>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <!-- Form dos itens principal e detalhes !-->
+                    <div show.bind="isFrmItemPrincipal">
+                        <div show.bind="isLstItemPrincipal">
+                            <div class="row form-inline">
+                                <div class="col-xs-12 col-sm-6 col-md-10">
+                                    <div class="input-group" style="width:150px">
+                                        <label for="orcamentoItem.Ambiente">Ambiente</label>
+                                        <input value.bind="orcamentoItem.Ambiente & validate" type="text" class="form-control" placeholder="Ambiente"
+                                            maxlength="${orcamentoItem.MaxAmbiente}" />
+                                    </div>
+                                    <div class="input-group" style="width:100px">
+                                        <label for="orcamentoItem.ProdutoId">Produto</label>
+                                        <div class="search input-group" role="search">
+                                            <input value.bind="orcamentoItem.ProdutoId" type="search" class="form-control" placeholder="Prd.Final"
+                                                maxlength="${orcamentoItem.MaxProdutoId}" />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" click.trigger="DoAtivarLstItem()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                                    <span class="fa fa-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group" style="width:250px">
+                                        <label for="orcamentoItem.NomeProduto">Nome</label>
+                                        <input value.bind="orcamentoItem.NomeProduto" type="text" class="form-control" placeholder="Nome Produto"
+                                            disabled/>
+                                    </div>
+                                    <div class="input-group" style="width:50px">
+                                        <label for="orcamentoItem.Volume">Vol</label>
+                                        <input value.bind="orcamentoItem.Volume" type="text" class="form-control" placeholder="Vol" disabled/>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-2">
+                                    <div class="input-group" style="width:90px">
+                                        <label for="orcamentoItem.ModeloId">Modelo</label>
+                                        <div class="search input-group" role="search">
+                                            <input value.bind="orcamentoItem.ModeloId" type="search" class="form-control" placeholder="IdModelo" maxlength="${MaxModeloId}" />
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" click.trigger="DoAtivarLstModelo()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                                    <span class="fa fa-search"></span>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group" style="width:95px">
+                                        <label for="NomeModelo">Nome</label>
+                                        <input value.bind="orcamentoItem.NomeModelo" type="text" class="form-control" placeholder="Nome Modelo" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row form-inline">
+                                <div class="col-xs-12 col-sm-6 col-md-10">
+                                    <div class="input-group" style="width:120px">
+                                        <label for="orcamentoItem.Quantidade">Qtd.</label>
+                                        <input value.bind="orcamentoItem.Quantidade | qtd & updateTrigger:'blur'" type="text" class="form-control"
+                                            placeholder="Qtd" maxlength="${orcamentoItem.MaxQuantidade}" />
+                                    </div>
+                                    <div class="input-group" style="width:120px">
+                                        <label for="orcamentoItem.VlrUnitario">Vlr.Unitario</label>
+                                        <input value.bind="orcamentoItem.VlrUnitario | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="Vlr.Unitario"
+                                            maxlength="${orcamentoItem.MaxVlrUnitario}" disabled/>
+                                    </div>
+                                    <div class="input-group" style="width:120px">
+                                        <label for="orcamentoItem.Largura">Largura</label>
+                                        <input value.bind="orcamentoItem.Largura | qtd & updateTrigger:'blur'" type="text" class="form-control" id="orcamentoItem.Largura"
+                                            placeholder="Largura" maxlength="${orcamentoItem.MaxLargura}" />
+                                    </div>
+                                    <div class="input-group" style="width:120px">
+                                        <label for="orcamentoItem.Comprimento">Comprimento</label>
+                                        <input value.bind="orcamentoItem.Comprimento | qtd & updateTrigger:'blur'" type="text" class="form-control" id="orcamentoItem.Comprimento"
+                                            placeholder="Comprto." maxlength="${orcamentoItem.MaxComprimento}" />
+                                    </div>
+                                    <div class="input-group" style="width:120">
+                                        <label for="orcamentoItem.Area">Area Total</label>
+                                        <input value.one-way="orcamentoItem.GetArea | qtd" type = "text" class="form-control" placeholder="Area" disabled/>
+                                    </div>
+                                    <div class="input-group" style="width:120px">
+                                        <label for="orcamentoItem.PerDesconto">% Desconto</label>
+                                        <input value.bind="orcamentoItem.PerDesconto | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="% Desconto"
+                                            maxlength="${orcamentoItem.MaxPerDesconto}" />
+                                    </div>
+                                    <div class="input-group" style="width:120px">
+                                        <label for="orcamentoItem.VlrDesconto">Vlr.Desconto</label>
+                                        <input value.bind="orcamentoItem.VlrDesconto | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="Vlr.Desconto"
+                                            maxlength="${orcamentoItem.MaxVlrDesconto}" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-2">
+                                    <div class="input-group" style="width:120px">
+                                        <label for="orcamentoItem.VlrTotal">Total do produto</label>
+                                        <input value.one-way="orcamentoItem.GetVlrTotal | valor" type="text" class="form-control" placeholder="Total"
+                                            disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div show.bind="!isLstItemPrincipal">
+                            <div class="row form-inline">
+                                <div class="col-xs-12 col-sm-6 col-md-10">
+                                    <div show.bind="!isFormItemPrincipal" class="input-group">
+                                        <div class="input-group" style="width:100px">
+                                            <label for="orcamentoItem.ProdutoId">Produto</label>
+                                            <div class="search input-group" role="search">
+                                                <input value.bind="orcamentoItem.ProdutoId" type="search" class="form-control" id="orcamentoItem.ProdutoId" placeholder="Prd.Final"
+                                                    maxlength="${orcamentoItem.MaxProdutoId}" />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" click.trigger="DoAtivarLstItem()" data-toggle="tooltip" data-placement="bottom" title="Procurar conteúdo.">
+                                                        <span class="fa fa-search"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="input-group" style="width:250px">
+                                            <label for="orcamentoItem.NomeProduto">Nome</label>
+                                            <input value.bind="orcamentoItem.NomeProduto" type="text" class="form-control" id="orcamentoItem.NomeProduto" placeholder="Nome Produto"
+                                                disabled/>
+                                        </div>
+                                        <div class="input-group" style="width:50px">
+                                            <label for="orcamentoItem.Volume">UN</label>
+                                            <input value.bind="orcamentoItem.Volume" type="text" class="form-control" id="orcamentoItem.Volume" placeholder="UN" disabled/>
+                                        </div>
+                                    </div>
+                                    <div class="input-group" style="width:100px">
+                                        <label for="orcamentoItem.Quantidade">Qtd.</label>
+                                        <input value.bind="orcamentoItem.Quantidade | qtd & updateTrigger:'blur'" type="text" class="form-control" id="orcamentoItem.Quantidade"
+                                            placeholder="Qtd" maxlength="${orcamentoItem.MaxQuantidade}" />
+                                    </div>
+                                    <div class="input-group" style="width:100px">
+                                        <label for="orcamentoItem.QuantidadeKit">Qtd.Modelo</label>
+                                        <input value.bind="orcamentoItem.QuantidadeKit | qtd" type="text" class="form-control" id="orcamentoItem.QuantidadeKit" placeholder="Qtd"
+                                            maxlength="${orcamentoItem.MaxQuantidade}" disabled/>
+                                    </div>
+
+                                    <div class="input-group" style="width:120px">
+                                        <label for="orcamentoItem.VlrUnitario">Vlr.Unitário</label>
+                                        <input value.bind="orcamentoItem.VlrUnitario | valor & updateTrigger:'blur'" type="text" class="form-control" id="orcamentoItem.VlrUnitario"
+                                            placeholder="Vlr" maxlength="${orcamentoItem.MaxVlrUnitario}" />
+                                    </div>
+                                    <div class="input-group" style="width:100px">
+                                        <label for="orcamentoItem.Area">Area</label>
+                                        <input value.bind="orcamentoItem.Area | qtd" type="text" class="form-control" id="orcamentoItem.Area" placeholder="Area"
+                                            maxlength="${orcamentoItem.MaxArea}" disabled/>
+                                    </div>
+
+                                    <div class="input-group" style="width:100px">
+                                        <label for="orcamentoItem.PerDesconto">% Desconto</label>
+                                        <input value.bind="orcamentoItem.PerDesconto | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="% Desconto"
+                                            id="orcamentoItem.PerDesconto" maxlength="${orcamentoItem.MaxPerDesconto}" />
+                                    </div>
+                                    <div class="input-group" style="width:100px">
+                                        <label for="orcamentoItem.VlrDesconto">Vlr.Desconto</label>
+                                        <input value.bind="orcamentoItem.VlrDesconto | valor & updateTrigger:'blur'" type="text" class="form-control" placeholder="Vlr.Desconto"
+                                            id="orcamentoItem.VlrDesconto" maxlength="${orcamentoItem.MaxVlrDesconto}" />
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-2">
+                                    <div class="input-group">
+                                        <label for="orcamentoItem.VlrTotal">Total</label>
+                                        <input value.one-way="orcamentoItem.GetVlrTotal | valor" type="text" class="form-control" placeholder="Vlr.Total" id="orcamentoItem.VlrTotal"
+                                            maxlength="${orcamentoItem.MaxVlrTotal}" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Todas as listas dos Itens-->
+                    <div show.bind="!isFrmItemPrincipal">
+                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                            <!-- listagem de produtos finais !-->
+                            <div show.bind="isLstItemPrincipal">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingOne">
+                                        <h4 class="panel-title">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-6 col-md-12">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-expanded="false" aria-controls="collapseOne">
+                                                        Produtos
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <lo repeat.for="orcaProd of orcamentoItem.lstOprd">
+                                                    <button type="button" class="list-group-item" click.trigger="DoEditarItem(orcaProd)">
+                                                        <div class="col-xs-12 col-sm-6 col-md-10">
+                                                            <h4 class="list-group-item-heading">
+                                                                ${orcaProd.produto.nome} - ${orcaProd.produto.volume}
+                                                            </h4>
+                                                            <p class="list-group-item-text">
+                                                                Qtd. : ${orcaProd.quantidade * orcaProd.quantidadeKit | qtd} 
+                                                                Vlr.Unitario : R$ ${orcaProd.vlrUnitario | valor} 
+                                                                Largura: ${orcaProd.largura | qtd}
+                                                                Comprimento : ${orcaProd.comprimento | qtd} 
+                                                                Area : ${orcaProd.area} 
+                                                                Desc.% : ${orcaProd.perDesconto | valor} 
+                                                                Desc.R$ : ${orcaProd.vlrDesconto | valor}
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-2">
+                                                            <p class="list-group-item-text">
+                                                                <h4 class="list-group-item-heading" align="right">
+                                                                    Ambiente: ${orcaProd.ambiente}
+                                                                </h4>
+                                                            </p>
+                                                            <p class="list-group-item-text" align="right">
+                                                                Total : R$ ${orcaProd.vlrTotal | valor}
+                                                            </p>
+                                                        </div>
+
+                                                    </button>
+                                                </lo>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div show.bind="!isLstItemPrincipal">
+                                <!-- listagem de produtos Bases !-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingTwo">
+                                        <h4 class="panel-title">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-6 col-md-12">
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-controls="collapseTwo">
+                                                        Base
+                                                    </a>
+                                                </div>                                                
+                                            </div>                                            
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <lo repeat.for="orcaBase of orcamentoItem.lstPbas">
+                                                    <button type="button" class="list-group-item" click.trigger="DoEditarItem(orcaBase)">
+                                                        <div class="col-xs-12 col-sm-6 col-md-4">
+                                                            <h4 class="list-group-item-heading">${orcaBase.produto.nome} - ${orcaBase.produto.volume} </h4>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                                            Qtd. : ${orcaBase.quantidade * orcaBase.quantidadeKit | qtd} Vlr.Unitário : R$ ${orcaBase.vlrUnitario | valor}
+                                                            Area : ${orcaBase.area} 
+                                                            Desc.% : ${orcaBase.perDesconto | valor} 
+                                                            Desc.R$ : ${orcaBase.vlrDesconto | valor}
+                                                            Desc.Ind: ${orcaBase.indDescontoProdutoFinal}
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-2" align="right">
+                                                            Total : R$ ${orcaBase.vlrTotal | valor}
+                                                        </div>
+                                                    </button>
+                                                </lo>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- listagem de acabamentos !-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingTree">
+                                        <h4 class="panel-title">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-6 col-md-12">
+                                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTree" aria-controls="collapseTree">
+                                                        Componentes
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseTree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTree">
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <lo repeat.for="orcaAcab of orcamentoItem.lstPaca">
+                                                    <button type="button" class="list-group-item" click.trigger="DoEditarItem(orcaAcab)">
+                                                        <div class="col-xs-12 col-sm-6 col-md-4">
+                                                            <h4 class="list-group-item-heading">${orcaAcab.produto.nome} - ${orcaAcab.produto.volume} </h4>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                                            Qtd. : ${orcaAcab.quantidade * orcaAcab.quantidadeKit | qtd} 
+                                                            Vlr.Unitário : R$ ${orcaAcab.vlrUnitario | valor}
+                                                            Area : ${orcaAcab.area}
+                                                            Desc.% : ${orcaAcab.perDesconto | valor} 
+                                                            Desc.R$ : ${orcaAcab.vlrDesconto | valor}
+                                                            Desc.Ind: ${orcaAcab.indDescontoProdutoFinal}
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-2" align="right">
+                                                            Total : R$ ${orcaAcab.vlrTotal | valor}
+                                                        </div>
+                                                    </button>
+                                                </lo>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- listagem de acessorios !-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingFour">
+                                        <h4 class="panel-title">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-6 col-md-12">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                        Acessórios
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <lo repeat.for="orcaAces of orcamentoItem.lstPace">
+                                                    <button type="button" class="list-group-item" click.trigger="DoEditarItem(orcaAces)">
+                                                        <div class="col-xs-12 col-sm-6 col-md-4">
+                                                            <h4 class="list-group-item-heading">${orcaAces.produto.nome} - ${orcaAces.produto.volume} </h4>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                                            Qtd. : ${orcaAces.quantidade * orcaAces.quantidadeKit | qtd} 
+                                                            Vlr.Unitário : R$ ${orcaAces.vlrUnitario | valor}
+                                                            Area : ${orcaAces.area}
+                                                            Desc.% : ${orcaAces.perDesconto | valor} 
+                                                            Desc.R$ : ${orcaAces.vlrDesconto | valor}
+                                                            Desc.Ind: ${orcaAces.indDescontoProdutoFinal}
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-2" align="right">
+                                                            Total : R$ ${orcaAces.vlrTotal | valor}
+                                                        </div>
+                                                    </button>
+                                                </lo>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- listagem de serviços !-->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading" role="tab" id="headingFive">
+                                        <h4 class="panel-title">
+                                            <div class="row">
+                                                <div class="col-xs-6 col-sm-6 col-md-12">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                                        Serviços
+                                                    </a>
+                                                </div>
+                                            </div>                                            
+                                        </h4>
+                                    </div>
+                                    <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+                                        <div class="panel-body">
+                                            <ul class="list-group">
+                                                <lo repeat.for="orcaServ of orcamentoItem.lstPser">
+                                                    <button type="button" class="list-group-item" click.trigger="DoEditarItem(orcaServ)">
+                                                        <div class="col-xs-12 col-sm-6 col-md-4">
+                                                            <h4 class="list-group-item-heading">${orcaServ.produto.nome} - ${orcaServ.produto.volume} </h4>
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-6">
+                                                            Qtd. : ${orcaServ.quantidade * orcaServ.quantidadeKit | qtd} 
+                                                            Valor Unitário : ${orcaServ.vlrUnitario | valor}
+                                                            Area : ${orcaServ.area}
+                                                            Desc.% : ${orcaServ.perDesconto | valor} 
+                                                            Desc.R$ : ${orcaServ.vlrDesconto | valor}
+                                                            Desc.Ind: ${orcaServ.indDescontoProdutoFinal}
+                                                        </div>
+                                                        <div class="col-xs-12 col-sm-6 col-md-2" align="right">
+                                                            Total : R$ ${orcaServ.vlrTotal | valor}
+                                                        </div>
+                                                    </button>
+                                                </lo>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
