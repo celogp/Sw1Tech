@@ -3,21 +3,6 @@
 *	Tabela de Cadastros básicos
 **************************************************	
 quando não tem usuario criado
-Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=bdsw1tech;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False
-
-Quando tem o usuario 
-Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=bdsw1tech; User ID=sw1tech; Password=@dmin123; Connect Timeout=30;
-
-"DefaultConnection": "Data Source=192.168.0.36; Initial Catalog=bdsw1tech; User ID=sw1tech; Password=@dmin123; Connect Timeout=30;"
-"DefaultConnection": "Data Source=(localdb)\\MSSQLLocalDB; Initial Catalog=bdsw1tech; User ID=sw1tech; Password=@dmin; Connect Timeout=30;"
-
-HostAzul		
-Data Source=bd.asp.hostazul.com.br,3533; Initial Catalog=8129_bdsw1tech; User ID=8129_sw1tech; Password=@dmin123; Connect Timeout=30;
-
-Para resetar o contador identity
-
-	DBCC CHECKIDENT ('TORCAMENTOITEM', RESEED, 0)
-
 */
 
 /*
@@ -63,7 +48,7 @@ go
 /*
 vincular o usuario ao banco
 */
-EXEC  sp_change_users_login @Action='update_one', @UserNamePattern='sw1tech', @LoginName='sw1tech';
+EXEC  sp_change_users_login @Action='update_one', @UserNamePattern='******', @LoginName='******';
 
 /*
 	Ok Sexo
